@@ -1,0 +1,57 @@
+name: ZAP Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: ZAP Full Scan
+      id: zap_scan
+      uses: zaproxy/action-full-scan@v0.10.0
+      with:
+        target: '{{ secrets.WEBSITE_TARGET }}'
+        rules_file_name: '/zap/rules.json'
+        docker_name: 'owasp/zap2docker-stable'
+        user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+    - name: Save ZAP Report as JSON
+      run: |
+        mkdir -p reports
+        zap-cli report -o reports/zap_report.json -f json
+      env:
+        ZAP_CLI_HOME: ${{ github.workspace }}
+
+
+    - name: Verify Changed files
+      id: verify-changed-files
+      uses: tj-actions/verify-changed-files@v20
+      with:
+        files: |
+          reports/*
+
+
+    - name: Commit and Push Changes
+      if: steps.verify-changed-files.outputs.files_changed == 'true'
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        commit_message: Updated Link Test Results
+        branch: main
+        file_pattern: |
+          reports/*
+
+      env:
+        GIT_USER_NAME: ${{ secrets.USER_NAME }}
+        GIT_USER_EMAIL: ${{ secrets.USER_EMAIL }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
