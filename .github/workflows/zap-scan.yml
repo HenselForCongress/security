@@ -30,8 +30,7 @@ jobs:
 
     - name: Save ZAP Report as JSON
       run: |
-        mkdir -p reports
-        zap-cli report -o reports/zap_report.json -f json
+        zap-cli report -o zap_report.json -f json
       env:
         ZAP_CLI_HOME: ${{ github.workspace }}
 
