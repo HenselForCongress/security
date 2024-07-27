@@ -26,8 +26,8 @@ jobs:
       run: |
         mkdir -p $GITHUB_WORKSPACE/zap
         ls -l /home/runner/work/security/security/zap/rules.json
-        cp /home/runner/work/security/security/zap/rules.json $GITHUB_WORKSPACE/zap/rules.json
         ls -l $GITHUB_WORKSPACE/zap/rules.json
+      # cp /home/runner/work/security/security/zap/rules.json $GITHUB_WORKSPACE/zap/rules.json
 
     - name: Run ZAP Full Scan
       uses: zaproxy/action-full-scan@v0.10.0
