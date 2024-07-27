@@ -17,6 +17,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: stuff
+      run: tree -a -I 'venv|__pycache__|.git|.nova|.DS_Store|.pytest_cache|node_modules|.next|archive|scratch|target'
+
     - name: ZAP Full Scan
       id: zap_scan
       uses: zaproxy/action-full-scan@v0.10.0
