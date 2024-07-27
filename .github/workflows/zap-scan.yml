@@ -23,7 +23,10 @@ jobs:
       run: cp zap/rules.json /home/runner/work/security/security/rules.json
 
     - name: Verify ZAP rules file
-      run: ls -l /home/runner/work/security/security/rules.json
+      run: |
+        ls -l /home/runner/work/security/security/zap/rules.json
+        cp /home/runner/work/security/security/zap/rules.json /zap/wrk/rules.json
+        ls -l /zap/wrk/rules.json
 
     - name: Run ZAP Full Scan
       uses: zaproxy/action-full-scan@v0.10.0
