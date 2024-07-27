@@ -22,8 +22,9 @@ jobs:
     - name: Copy ZAP rules
       run: cp zap/rules.json /home/runner/work/security/security/rules.json
 
-    - name: Verify ZAP rules file
+    - name: Verify and Copy ZAP rules file
       run: |
+        mkdir -p /zap/wrk
         ls -l /home/runner/work/security/security/zap/rules.json
         cp /home/runner/work/security/security/zap/rules.json /zap/wrk/rules.json
         ls -l /zap/wrk/rules.json
