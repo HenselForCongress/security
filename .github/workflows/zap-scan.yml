@@ -19,10 +19,11 @@ jobs:
     - name: List files
       run: tree -a -I 'venv|__pycache__|.git|.nova|.DS_Store|.pytest_cache|node_modules|.next|archive|scratch|target'
 
+    - name: Create target directory
+      run: mkdir -p security/zap
+
     - name: Copy ZAP rules
-      run: |
-        mkdir security
-        cp zap/rules.json security/zap/rules.json
+      run: cp zap/rules.json security/zap/rules.json
 
 
     - name: Run ZAP Full Scan
