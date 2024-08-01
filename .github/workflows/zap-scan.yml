@@ -16,15 +16,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: List files
-      run: tree -a -I 'venv|__pycache__|.git|.nova|.DS_Store|.pytest_cache|node_modules|.next|archive|scratch|target'
+    - name: Convert spaces to tabs in ZAP rules
+      run: |
+        expand -t 1 zap/rules.json > zap/rules_tabs.json
+        mv zap/rules_tabs.json zap/rules.json
 
     - name: Create target directory
       run: mkdir -p security/zap
 
     - name: Copy ZAP rules
       run: cp zap/rules.json security/zap/rules.json
-
 
     - name: Run ZAP Full Scan
       uses: zaproxy/action-full-scan@v0.10.0
