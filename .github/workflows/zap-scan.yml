@@ -24,13 +24,6 @@ jobs:
         expand -t 1 zap/rules.json > zap/rules_tabs.json
         mv zap/rules_tabs.json zap/rules.json
 
-    - name: Copy ZAP rules
-      run: cp zap/rules.json $GITHUB_WORKSPACE/zap/rules.json
-
-    - name: Verify and Copy ZAP rules file
-      run: |
-        mkdir -p $GITHUB_WORKSPACE/zap
-        ls -l $GITHUB_WORKSPACE/zap/rules.json
 
     - name: Run ZAP Full Scan
       uses: zaproxy/action-full-scan@v0.10.0
